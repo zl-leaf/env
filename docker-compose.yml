@@ -1,0 +1,60 @@
+version: '2'
+
+services:
+
+### Application #############################
+  application:
+    image: tianon/true
+    volumes:
+      - ${APPLICATION}:/opt/htdoc
+
+### Workspace #############################
+  workspace:
+    build: ./workspace
+    volumes_from:
+      - application
+    depends_on:
+      - application
+    links:
+      - platform:${PLATFORM_API_HOST}
+
+### platform api #############################
+  platform:
+    build: ./platform
+    volumes_from:
+      - application
+    volumes:
+      - ${PLATFORM_NGINX_LOG_PATH}:/var/log/nginx
+      - ${PLATFORM_NGINX_SITES_PATH}:/etc/nginx/sites-available
+    ports:
+      - "${PLATFORM_NGINX_HTTP_PORT}:80"
+      - "${PLATFORM_NGINX_HTTPS_PORT}:443"
+    depends_on:
+      - application
+
+### Web #############################
+  web:
+    build: ./web
+    volumes_from:
+      - application
+    ports:
+      - "${WEB_NODE_PORT}:8080"
+    depends_on:
+      - application
+    links:
+      - platform:${PLATFORM_API_HOST}
+
+### mysql #############################
+  mysql:
+    build:
+      context: ./mysql
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - TZ=${MYSQL_TIMEZONE}
+    volumes:
+      - ${MYSQL_DATA_PATH}:/var/lib/mysql
+    ports:
+      - "${MYSQL_PORT}:3306"
