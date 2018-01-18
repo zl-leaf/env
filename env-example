@@ -3,6 +3,9 @@
 
 APPLICATION=../
 
+### workspace
+WORKSPACE_NODE_VERSION=stable
+
 ### platform
 PLATFORM_API_HOST=api.yipzale.me
 PLATFORM_NGINX_LOG_PATH=/Users/leaf/Docker/docker-data/env/platform/nginx/log

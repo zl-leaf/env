@@ -10,7 +10,10 @@ services:
 
 ### Workspace #############################
   workspace:
-    build: ./workspace
+    build:
+      context: ./workspace
+      args:
+        - NODE_VERSION=${WORKSPACE_NODE_VERSION}
     volumes_from:
       - application
     depends_on:
