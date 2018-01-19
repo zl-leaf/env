@@ -38,8 +38,8 @@ RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh
     . $NVM_DIR/nvm.sh && nvm install ${NODE_VERSION} && \
     nvm use ${NODE_VERSION} && \
     nvm alias ${NODE_VERSION} && \
-    npm install -g gulp bower vue-cli \
+    npm install -g gulp bower vue-cli
 
 # composer
-#RUN curl -sS https://getcomposer.org/installer | php && \
-#    mv composer.phar /usr/local/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer
