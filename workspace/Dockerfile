@@ -45,4 +45,4 @@ RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
 # bash
-RUN echo "export TERM=dumb" >> ~/.bashrc
+RUN echo "export TERM=xterm-256color" >> ~/.bashrc
