@@ -43,3 +43,6 @@ RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh
 # composer
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
+
+# bash
+RUN echo "export TERM=dumb" >> ~/.bashrc
