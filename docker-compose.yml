@@ -14,6 +14,7 @@ services:
       context: ./workspace
       args:
         - NODE_VERSION=${WORKSPACE_NODE_VERSION}
+        - NODE_ENV=${NODE_ENV}
     volumes_from:
       - application
     depends_on:
@@ -37,7 +38,10 @@ services:
 
 ### Web #############################
   web:
-    build: ./web
+    build:
+      context: ./web
+      args:
+        - NODE_ENV=${NODE_ENV}
     volumes_from:
       - application
     ports:

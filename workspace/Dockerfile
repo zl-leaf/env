@@ -44,5 +44,9 @@ RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
+# node env
+ARG NODE_ENV=production
+ENV NODE_ENV ${NODE_ENV}
+
 # bash
 RUN echo "export TERM=xterm-256color" >> ~/.bashrc

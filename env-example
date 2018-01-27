@@ -15,6 +15,7 @@ PLATFORM_NGINX_HTTPS_PORT=9091
 
 ### web
 WEB_NODE_PORT=9080
+NODE_ENV = production
 
 ### mysql
 MYSQL_DATABASE=default
