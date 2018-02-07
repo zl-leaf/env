@@ -25,3 +25,12 @@ MYSQL_PORT=9100
 MYSQL_ROOT_PASSWORD=root
 MYSQL_TIMEZONE=UTC
 MYSQL_DATA_PATH=/Users/leaf/Docker/docker-data/env/mysql/data
+
+### mysql-slave
+MYSQL_DATABASE_SLAVE=default
+MYSQL_USER_SLAVE=leaf
+MYSQL_PASSWORD_SLAVE=leaf
+MYSQL_PORT_SLAVE=9110
+MYSQL_ROOT_PASSWORD_SLAVE=root
+MYSQL_TIMEZONE_SLAVE=UTC
+MYSQL_DATA_PATH_SLAVE=/Users/leaf/Docker/docker-data/env/mysql_slave/data

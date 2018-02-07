@@ -65,3 +65,19 @@ services:
       - ${MYSQL_DATA_PATH}:/var/lib/mysql
     ports:
       - "${MYSQL_PORT}:3306"
+
+  mysql-slave:
+    build:
+      context: ./mysql-slave
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE_SLAVE}
+      - MYSQL_USER=${MYSQL_USER_SLAVE}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD_SLAVE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD_SLAVE}
+      - TZ=${MYSQL_TIMEZONE}
+    volumes:
+      - ${MYSQL_DATA_PATH_SLAVE}:/var/lib/mysql
+    ports:
+      - "${MYSQL_PORT_SLAVE}:3306"
+    links:
+      - mysql:mysql-master
