@@ -34,3 +34,10 @@ MYSQL_PORT_SLAVE=9110
 MYSQL_ROOT_PASSWORD_SLAVE=root
 MYSQL_TIMEZONE_SLAVE=UTC
 MYSQL_DATA_PATH_SLAVE=/Users/leaf/Docker/docker-data/env/mysql_slave/data
+
+### filebeat
+FILE_BEAT_REGISTRY_FILE=/Users/leaf/Docker/docker-data/env/filebeat/registry
+
+### elasticsearch
+ELASTIC_HOST=elastic.yipzale.me
+ELASTIC_DATA=/Users/leaf/Docker/docker-data/env/elasticsearch/data

@@ -35,6 +35,12 @@ services:
       - "${PLATFORM_NGINX_HTTPS_PORT}:443"
     depends_on:
       - application
+    labels:
+      service: platform
+    logging:
+      driver: json-file
+      options:
+        labels: "service"
 
 ### Web #############################
   web:
@@ -50,6 +56,12 @@ services:
       - application
     links:
       - platform:${PLATFORM_API_HOST}
+    labels:
+      service: web
+    logging:
+      driver: json-file
+      options:
+        labels: "service"
 
 ### mysql #############################
   mysql:
@@ -65,6 +77,12 @@ services:
       - ${MYSQL_DATA_PATH}:/var/lib/mysql
     ports:
       - "${MYSQL_PORT}:3306"
+    labels:
+      service: mysql
+    logging:
+      driver: json-file
+      options:
+        labels: "service"
 
   mysql-slave:
     build:
@@ -81,3 +99,49 @@ services:
       - "${MYSQL_PORT_SLAVE}:3306"
     links:
       - mysql:mysql-master
+    labels:
+      service: mysql
+    logging:
+      driver: json-file
+      options:
+        labels: "service"
+
+### filebeat #############################
+  filebeat:
+    build:
+      context: ./filebeat
+    volumes:
+      - ${FILE_BEAT_REGISTRY_FILE}:/var/lib/filebeat/registry
+      - /var/lib/docker/containers:/var/lib/docker/containers
+
+### logstash #############################
+  logstash:
+    build:
+      context: ./logstash
+    volumes_from:
+      - application
+    depends_on:
+      - application
+    ports:
+       - "5044:5044"
+
+### elasticsearch #############################
+  elasticsearch:
+    build:
+      context: ./elasticsearch
+    user: elasticsearch
+    volumes:
+       - ${ELASTIC_DATA}:/usr/share/elasticsearch/data
+    ports:
+       - "9200:9200"
+
+### kibana #############################
+  kibana:
+    build:
+      context: ./kibana
+    ports:
+      - 5601:5601
+    links:
+      - elasticsearch:${ELASTIC_HOST}
+    environment:
+      - ELASTICSEARCH_URL=http://${ELASTIC_HOST}:9200
