@@ -37,6 +37,7 @@ MYSQL_DATA_PATH_SLAVE=/Users/leaf/Docker/docker-data/env/mysql_slave/data
 
 ### filebeat
 FILE_BEAT_REGISTRY_FILE=/Users/leaf/Docker/docker-data/env/filebeat/registry
+FRONT_LOG=/usr/local/var/log/nginx
 
 ### elasticsearch
 ELASTIC_HOST=elastic.yipzale.me

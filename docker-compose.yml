@@ -110,18 +110,17 @@ services:
   filebeat:
     build:
       context: ./filebeat
+    volumes_from:
+      - application
     volumes:
       - ${FILE_BEAT_REGISTRY_FILE}:/var/lib/filebeat/registry
       - /var/lib/docker/containers:/var/lib/docker/containers
+      - ${FRONT_LOG}:/var/log/front/nginx
 
 ### logstash #############################
   logstash:
     build:
       context: ./logstash
-    volumes_from:
-      - application
-    depends_on:
-      - application
     ports:
        - "5044:5044"
 
