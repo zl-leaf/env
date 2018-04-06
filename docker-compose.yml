@@ -133,6 +133,7 @@ services:
        - ${ELASTIC_DATA}:/usr/share/elasticsearch/data
     ports:
        - "9200:9200"
+       - "9300:9300"
 
 ### kibana #############################
   kibana:
@@ -144,3 +145,21 @@ services:
       - elasticsearch:${ELASTIC_HOST}
     environment:
       - ELASTICSEARCH_URL=http://${ELASTIC_HOST}:9200
+
+### canal #############################
+  canal:
+    build:
+      context: ./canal
+    links:
+      - mysql:mysql
+    volumes:
+       - /Users/leaf/Docker/docker-data/env/canal/logs:/usr/local/canal/logs
+    ports:
+       - "11111:11111"
+
+### canal-mysql-elasticsearch-sync #############################
+  canal-sync:
+    build:
+      context: ./canal-mysql-elasticsearch-sync
+    ports:
+       - "8828:8828"
