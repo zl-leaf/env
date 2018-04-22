@@ -39,6 +39,10 @@ MYSQL_DATA_PATH_SLAVE=/Users/leaf/Docker/docker-data/env/mysql_slave/data
 FILE_BEAT_REGISTRY_FILE=/Users/leaf/Docker/docker-data/env/filebeat/registry
 FRONT_LOG=/usr/local/var/log/nginx
 
+### fluentd
+FLUENTD_HOST=192.168.99.100
+FLUENTD_DATA=/Users/leaf/Docker/docker-data/env/fluentd/data
+
 ### elasticsearch
 ELASTIC_HOST=elastic.yipzale.me
 ELASTIC_DATA=/Users/leaf/Docker/docker-data/env/elasticsearch/data

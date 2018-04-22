@@ -35,12 +35,11 @@ services:
       - "${PLATFORM_NGINX_HTTPS_PORT}:443"
     depends_on:
       - application
-    labels:
-      service: platform
     logging:
-      driver: json-file
+      driver: fluentd
       options:
-        labels: "service"
+        fluentd-address: "${FLUENTD_HOST}:24224"
+        tag: "docker.platform"
 
 ### Web #############################
   web:
@@ -56,12 +55,11 @@ services:
       - application
     links:
       - platform:${PLATFORM_API_HOST}
-    labels:
-      service: web
     logging:
-      driver: json-file
+      driver: fluentd
       options:
-        labels: "service"
+        fluentd-address: "${FLUENTD_HOST}:24224"
+        tag: "docker.web"
 
 ### mysql #############################
   mysql:
@@ -77,12 +75,11 @@ services:
       - ${MYSQL_DATA_PATH}:/var/lib/mysql
     ports:
       - "${MYSQL_PORT}:3306"
-    labels:
-      service: mysql
     logging:
-      driver: json-file
+      driver: fluentd
       options:
-        labels: "service"
+        fluentd-address: "${FLUENTD_HOST}:24224"
+        tag: "docker.mysql"
 
   mysql-slave:
     build:
@@ -99,12 +96,11 @@ services:
       - "${MYSQL_PORT_SLAVE}:3306"
     links:
       - mysql:mysql-master
-    labels:
-      service: mysql
     logging:
-      driver: json-file
+      driver: fluentd
       options:
-        labels: "service"
+        fluentd-address: "${FLUENTD_HOST}:24224"
+        tag: "docker.mysql-slave"
 
 ### filebeat #############################
   filebeat:
@@ -123,6 +119,16 @@ services:
       context: ./logstash
     ports:
        - "5044:5044"
+
+### fluentd #############################
+  fluentd:
+    build:
+      context: ./fluentd
+    volumes:
+      - ${FLUENTD_DATA}:/fluentd/log
+    ports:
+       - "5140:5140"
+       - "24224:24224"
 
 ### elasticsearch #############################
   elasticsearch:
@@ -163,3 +169,12 @@ services:
       context: ./canal-mysql-elasticsearch-sync
     ports:
        - "8828:8828"
+
+### dns-server #############################
+  # dns-server:
+  #   build:
+  #     context: ./dns-server
+  #   ports:
+  #     - "53:53"
+  #   cap_add:
+  #     - NET_ADMIN
