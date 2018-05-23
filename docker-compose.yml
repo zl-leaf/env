@@ -38,6 +38,14 @@ services:
         fluentd-address: "${FLUENTD_HOST}:24224"
         tag: "docker.platform"
 
+### machinedog #############################
+  machinedog:
+    build: ./machinedog
+    volumes_from:
+      - application
+    ports:
+       - "8080:8080"
+
 ### Web #############################
   web:
     build:
