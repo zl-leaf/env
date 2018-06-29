@@ -1,7 +1,9 @@
 ### Application Path
-# Point to your application code, will be available at `/opt/htdoc`.
 
 APPLICATION=../
+
+MACHINEDOG_IP=192.168.99.100
+PLATFORM_API_IP=192.168.99.100
 
 ### workspace
 WORKSPACE_NODE_VERSION=stable

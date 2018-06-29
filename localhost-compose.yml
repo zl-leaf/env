@@ -1,0 +1,100 @@
+version: '2'
+
+services:
+
+### Application #############################
+  application:
+    image: tianon/true
+    volumes:
+      - ${APPLICATION}/machinedog-gateway:/opt/htdoc/gateway
+      - ${APPLICATION}/machinedog-discovery:/opt/htdoc/discovery
+      - ${APPLICATION}/machinedog-security:/opt/htdoc/security
+      - ${APPLICATION}/blog:/opt/htdoc/blog
+      - ${APPLICATION}/water:/opt/htdoc/water
+
+### Gateway #############################
+  gateway:
+    build:
+      context: ${APPLICATION}/machinedog-gateway
+    volumes_from:
+      - application
+    ports:
+      - "8080:8080"
+    extra_hosts:
+      - "machinedog.yipzale.me:${MACHINEDOG_IP}"
+      - "api.yipzale.me:${PLATFORM_API_IP}"
+
+### Discovery #############################
+  discovery:
+    build:
+      context: ${APPLICATION}/machinedog-discovery
+    volumes_from:
+      - application
+    ports:
+      - "1111:1111"
+    extra_hosts:
+      - "machinedog.yipzale.me:${MACHINEDOG_IP}"
+
+### Security #############################
+  security:
+    build:
+      context: ${APPLICATION}/machinedog-security
+    volumes_from:
+      - application
+    ports:
+      - "5555:5555"
+    extra_hosts:
+      - "machinedog.yipzale.me:${MACHINEDOG_IP}"
+
+### Web #############################
+  web:
+    build:
+      context: ${APPLICATION}/blog
+      args:
+        - NODE_ENV=${NODE_ENV}
+    volumes_from:
+      - application
+    ports:
+      - "${WEB_NODE_PORT}:8080"
+    extra_hosts:
+      - "machinedog.yipzale.me:${MACHINEDOG_IP}"
+      - "api.yipzale.me:${PLATFORM_API_IP}"
+
+
+### platform api #############################
+  platform:
+    build: ${APPLICATION}/water
+    volumes_from:
+      - application
+    ports:
+      - "${PLATFORM_NGINX_HTTP_PORT}:80"
+    extra_hosts:
+      - "machinedog.yipzale.me:${MACHINEDOG_IP}"
+
+### mysql #############################
+  mysql:
+    build:
+      context: ./mysql
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - TZ=${MYSQL_TIMEZONE}
+    volumes:
+      - ${MYSQL_DATA_PATH}:/var/lib/mysql
+    ports:
+      - "${MYSQL_PORT}:3306"
+
+### Workspace #############################
+  workspace:
+    build:
+      context: ./workspace
+      args:
+        - NODE_VERSION=${WORKSPACE_NODE_VERSION}
+        - NODE_ENV=${NODE_ENV}
+    volumes_from:
+      - application
+    extra_hosts:
+      - "machinedog.yipzale.me:${MACHINEDOG_IP}"
+      - "api.yipzale.me:${PLATFORM_API_IP}"
