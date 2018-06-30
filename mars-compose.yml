@@ -5,6 +5,7 @@ services:
   application:
     image: tianon/true
     volumes:
+      - ${MAVEN_LOCAL_REPOSITORY}:/root/.m2/repository
       - ${APPLICATION}/machinedog-gateway:/opt/htdoc/gateway
       - ${APPLICATION}/machinedog-discovery:/opt/htdoc/discovery
       - ${APPLICATION}/machinedog-security:/opt/htdoc/security
@@ -20,6 +21,8 @@ services:
       - application
     ports:
       - "8080:8080"
+    extra_hosts:
+      - "platform:${PLATFORM_IP}"
 
 ### Discovery #############################
   discovery:

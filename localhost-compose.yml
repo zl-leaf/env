@@ -6,6 +6,7 @@ services:
   application:
     image: tianon/true
     volumes:
+      - ${MAVEN_LOCAL_REPOSITORY}:/root/.m2/repository
       - ${APPLICATION}/machinedog-gateway:/opt/htdoc/gateway
       - ${APPLICATION}/machinedog-discovery:/opt/htdoc/discovery
       - ${APPLICATION}/machinedog-security:/opt/htdoc/security
@@ -22,7 +23,7 @@ services:
       - "8080:8080"
     extra_hosts:
       - "machinedog.yipzale.me:${MACHINEDOG_IP}"
-      - "api.yipzale.me:${PLATFORM_API_IP}"
+      - "platform:${PLATFORM_IP}"
 
 ### Discovery #############################
   discovery:
@@ -58,7 +59,7 @@ services:
       - "${WEB_NODE_PORT}:8080"
     extra_hosts:
       - "machinedog.yipzale.me:${MACHINEDOG_IP}"
-      - "api.yipzale.me:${PLATFORM_API_IP}"
+      - "api.yipzale.me:${API_IP}"
 
 
 ### platform api #############################
@@ -97,4 +98,5 @@ services:
       - application
     extra_hosts:
       - "machinedog.yipzale.me:${MACHINEDOG_IP}"
-      - "api.yipzale.me:${PLATFORM_API_IP}"
+      - "api.yipzale.me:${API_IP}"
+      - "platform:${PLATFORM_IP}"
