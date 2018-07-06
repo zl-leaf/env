@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+### elasticsearch #############################
+  elasticsearch:
+    build:
+      context: ./elasticsearch
+    user: elasticsearch
+    volumes:
+       - ${ELASTIC_DATA}:/usr/share/elasticsearch/data
+    ports:
+       - "9200:9200"
+       - "9300:9300"
+
+### kibana #############################
+  kibana:
+    build:
+      context: ./kibana
+    ports:
+      - 5601:5601
+    links:
+      - elasticsearch:${ELASTIC_HOST}
+    environment:
+      - ELASTICSEARCH_URL=http://${ELASTIC_HOST}:9200
