@@ -7,6 +7,3 @@ network.publish_host: 0.0.0.0
 #discovery.zen.minimum_master_nodes: 1
 transport.host: 0.0.0.0
 discovery.zen.minimum_master_nodes: 1
-
-# cluster.name: elasticsearch
-# node.name: "es-node1"

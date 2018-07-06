@@ -1,3 +1,3 @@
 FROM elasticsearch
 
-ADD config /usr/share/elasticsearch/config
+ADD elasticsearch.yml /usr/share/elasticsearch/config/elasticsearch.yml
