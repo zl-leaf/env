@@ -12,6 +12,7 @@ services:
       - ${APPLICATION}/machinedog-security:/opt/htdoc/security
       - ${APPLICATION}/blog:/opt/htdoc/blog
       - ${APPLICATION}/water:/opt/htdoc/water
+      - ${APPLICATION}/water-article:/opt/htdoc/water-article
 
 ### Gateway #############################
   gateway:
@@ -23,7 +24,7 @@ services:
       - "8080:8080"
     extra_hosts:
       - "machinedog.yipzale.me:${MACHINEDOG_IP}"
-      - "platform:${PLATFORM_IP}"
+      - "platform_v2:${PLATFORM_IP}"
 
 ### Discovery #############################
   discovery:
@@ -63,14 +64,15 @@ services:
 
 
 ### platform api #############################
-  platform:
-    build: ${APPLICATION}/water
+  platform_v2:
+    build:
+      context: ${APPLICATION}/water-article
     volumes_from:
       - application
-    ports:
-      - "${PLATFORM_NGINX_HTTP_PORT}:80"
     extra_hosts:
       - "machinedog.yipzale.me:${MACHINEDOG_IP}"
+    links:
+      - mysql:mysql-slave
 
 ### mysql #############################
   mysql:
@@ -99,4 +101,4 @@ services:
     extra_hosts:
       - "machinedog.yipzale.me:${MACHINEDOG_IP}"
       - "api.yipzale.me:${API_IP}"
-      - "platform:${PLATFORM_IP}"
+      - "platform_v2:${PLATFORM_IP}"
