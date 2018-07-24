@@ -10,7 +10,7 @@ services:
       - ${APPLICATION}/machinedog-discovery:/opt/htdoc/discovery
       - ${APPLICATION}/machinedog-security:/opt/htdoc/security
       - ${APPLICATION}/blog:/opt/htdoc/blog
-      - ${APPLICATION}/water:/opt/htdoc/water
+      - ${APPLICATION}/water-article:/opt/htdoc/water-article
       - ${FRONT_LOG}:/var/log/front/nginx
 
 ### Gateway #############################
@@ -22,7 +22,7 @@ services:
     ports:
       - "8080:8080"
     extra_hosts:
-      - "platform:${PLATFORM_IP}"
+      - "platform_v2:${PLATFORM_IP}"
 
 ### Discovery #############################
   discovery:
@@ -60,12 +60,13 @@ services:
 
 
 ### platform api #############################
-  platform:
-    build: ${APPLICATION}/water
+  platform_v2:
+    build:
+      context: ${APPLICATION}/water-article
     volumes_from:
       - application
-    ports:
-      - "${PLATFORM_NGINX_HTTP_PORT}:80"
+    extra_hosts:
+      - "machinedog.yipzale.me:${MACHINEDOG_IP}"
     logging:
       driver: fluentd
       options:
