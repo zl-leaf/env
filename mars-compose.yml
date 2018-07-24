@@ -65,8 +65,6 @@ services:
       context: ${APPLICATION}/water-article
     volumes_from:
       - application
-    extra_hosts:
-      - "machinedog.yipzale.me:${MACHINEDOG_IP}"
     logging:
       driver: fluentd
       options:
