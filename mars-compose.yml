@@ -44,7 +44,7 @@ services:
     build:
       context: ${APPLICATION}/machinedog-security
     environment:
-      - "SPRING_PROFILES_ACTIVE=dev"
+      - "SPRING_PROFILES_ACTIVE=prod"
     volumes_from:
       - application
     ports:
