@@ -49,7 +49,7 @@ services:
     volumes_from:
       - application
     ports:
-      - "5555:5555"
+      - "5555:8080"
 
 ### Configserver #############################
   # configserver:
