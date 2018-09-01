@@ -8,6 +8,7 @@ services:
       - ${MAVEN_LOCAL_REPOSITORY}:/root/.m2/repository
       - ${APPLICATION}/machinedog-gateway:/opt/htdoc/gateway
       - ${APPLICATION}/machinedog-discovery:/opt/htdoc/discovery
+      - ${APPLICATION}/machinedog-security:/opt/htdoc/machinedog-security
       - ${APPLICATION}/blog:/opt/htdoc/blog
       - ${APPLICATION}/water-article:/opt/htdoc/water-article
       - ${FRONT_LOG}:/var/log/front/nginx
