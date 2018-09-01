@@ -58,8 +58,6 @@ services:
       - "SPRING_PROFILES_ACTIVE=prod,jdbc"
     volumes_from:
       - application
-    extra_hosts:
-      - "machinedog.yipzale.me:${MACHINEDOG_IP}"
     ports:
       - "9000:8080"
 
