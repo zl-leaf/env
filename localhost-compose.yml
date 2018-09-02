@@ -7,12 +7,7 @@ services:
     image: tianon/true
     volumes:
       - ${MAVEN_LOCAL_REPOSITORY}:/root/.m2/repository
-      - ${APPLICATION}/machinedog-gateway:/opt/htdoc/gateway
-      - ${APPLICATION}/machinedog-discovery:/opt/htdoc/discovery
-      - ${APPLICATION}/machinedog-security:/opt/htdoc/security
-      - ${APPLICATION}/blog:/opt/htdoc/blog
-      - ${APPLICATION}/water:/opt/htdoc/water
-      - ${APPLICATION}/water-article:/opt/htdoc/water-article
+      - ${APPLICATION}:/opt/htdoc
 
 ### Gateway #############################
   gateway:
@@ -41,12 +36,27 @@ services:
   security:
     build:
       context: ${APPLICATION}/machinedog-security
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
     volumes_from:
       - application
     ports:
-      - "5555:5555"
+      - "5555:8080"
     extra_hosts:
       - "machinedog.yipzale.me:${MACHINEDOG_IP}"
+
+### Configserver #############################
+  configserver:
+    build:
+      context: ${APPLICATION}/machinedog-configserver
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev,jdbc"
+    volumes_from:
+      - application
+    extra_hosts:
+      - "machinedog.yipzale.me:${MACHINEDOG_IP}"
+    ports:
+      - "9000:8080"
 
 ### Web #############################
   web:
@@ -67,6 +77,8 @@ services:
   platform_v2:
     build:
       context: ${APPLICATION}/water-article
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
     volumes_from:
       - application
     extra_hosts:

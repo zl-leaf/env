@@ -6,10 +6,7 @@ services:
     image: tianon/true
     volumes:
       - ${MAVEN_LOCAL_REPOSITORY}:/root/.m2/repository
-      - ${APPLICATION}/machinedog-gateway:/opt/htdoc/gateway
-      - ${APPLICATION}/machinedog-discovery:/opt/htdoc/discovery
-      - ${APPLICATION}/blog:/opt/htdoc/blog
-      - ${APPLICATION}/water-article:/opt/htdoc/water-article
+      - ${APPLICATION}:/opt/htdoc
       - ${FRONT_LOG}:/var/log/front/nginx
 
 ### package #############################
@@ -48,7 +45,7 @@ services:
     volumes_from:
       - application
     ports:
-      - "5555:5555"
+      - "5555:8080"
 
 ### Configserver #############################
   # configserver:
@@ -82,6 +79,8 @@ services:
   platform_v2:
     build:
       context: ${APPLICATION}/water-article
+    environment:
+      - "SPRING_PROFILES_ACTIVE=prod"
     volumes_from:
       - application
     logging:
