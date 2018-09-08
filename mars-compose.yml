@@ -89,6 +89,12 @@ services:
         fluentd-address: "${FLUENTD_HOST}:24224"
         tag: "docker.platform"
 
+### mycat #############################
+  mycat:
+    build:
+      context: ./mycat
+    command: console
+
 ### mysql #############################
   mysql:
     build:
