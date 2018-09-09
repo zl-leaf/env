@@ -48,15 +48,13 @@ services:
       - "5555:8080"
 
 ### Configserver #############################
-  # configserver:
-  #   build:
-  #     context: ${APPLICATION}/machinedog-configserver
-  #   environment:
-  #     - "SPRING_PROFILES_ACTIVE=prod,jdbc"
-  #   volumes_from:
-  #     - application
-  #   ports:
-  #     - "9000:8080"
+  configserver:
+    build:
+      context: ${APPLICATION}/machinedog-configserver
+    environment:
+      - "SPRING_PROFILES_ACTIVE=prod,jdbc"
+    volumes_from:
+      - application
 
 ### Web #############################
   web:
