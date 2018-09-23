@@ -33,6 +33,8 @@ services:
       context: ${APPLICATION}/machinedog-discovery
     volumes_from:
       - application
+    environment:
+      - "EUREKA_ENVIRONMENT=prod"
     ports:
       - "1111:1111"
 

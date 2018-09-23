@@ -25,6 +25,8 @@ services:
   discovery:
     build:
       context: ${APPLICATION}/machinedog-discovery
+    environment:
+      - "EUREKA_ENVIRONMENT=dev"
     volumes_from:
       - application
     ports:
@@ -114,3 +116,19 @@ services:
       - "machinedog.yipzale.me:${MACHINEDOG_IP}"
       - "api.yipzale.me:${API_IP}"
       - "platform_v2:${PLATFORM_IP}"
+
+### Zoopkeeper #############################
+  zookeeper:
+    image: zookeeper
+    ports:
+      - 2181:2181
+
+### Kafka #############################
+  kafka:
+    image: wurstmeister/kafka
+    environment:
+      - KAFKA_ADVERTISED_LISTENERS=INSIDE://:9092,OUTSIDE://:9094
+      - KAFKA_LISTENERS=INSIDE://:9092,OUTSIDE://:9094
+    ports:
+      - 9094:9094
+      - 9092:9092
