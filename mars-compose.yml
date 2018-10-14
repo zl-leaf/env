@@ -144,6 +144,8 @@ services:
         - NODE_ENV=${NODE_ENV}
     volumes_from:
       - application
+    volumes:
+      - ${APPLICATION}:/opt/htdoc
 
 ### fluentd #############################
   fluentd:
