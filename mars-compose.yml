@@ -6,7 +6,6 @@ services:
     image: tianon/true
     volumes:
       - ${MAVEN_LOCAL_REPOSITORY}:/root/.m2/repository
-      - ${APPLICATION}:/opt/htdoc
       - ${FRONT_LOG}:/var/log/front/nginx
 
 ### package #############################
@@ -15,6 +14,8 @@ services:
       context: ./package
     volumes_from:
       - application
+    volumes:
+      - ${APPLICATION}:/opt/htdoc
 
 ### Gateway #############################
   gateway:
