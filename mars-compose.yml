@@ -47,8 +47,6 @@ services:
       - "SPRING_PROFILES_ACTIVE=prod"
     volumes_from:
       - application
-    ports:
-      - "5555:8080"
 
 ### Configserver #############################
   configserver:
