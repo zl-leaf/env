@@ -7,7 +7,6 @@ services:
     image: tianon/true
     volumes:
       - ${MAVEN_LOCAL_REPOSITORY}:/root/.m2/repository
-      - ${APPLICATION}:/opt/htdoc
 
 ### Gateway #############################
   gateway:
@@ -68,6 +67,8 @@ services:
         - NODE_ENV=${NODE_ENV}
     volumes_from:
       - application
+    volumes:
+      - ${APPLICATION}/blog:/opt/htdoc/blog
     ports:
       - "${WEB_NODE_PORT}:8080"
     extra_hosts:
@@ -112,23 +113,35 @@ services:
         - NODE_ENV=${NODE_ENV}
     volumes_from:
       - application
+    volumes:
+      - ${APPLICATION}:/opt/htdoc
     extra_hosts:
       - "machinedog.yipzale.me:${MACHINEDOG_IP}"
       - "api.yipzale.me:${API_IP}"
       - "platform_v2:${PLATFORM_IP}"
 
+### mycat #############################
+  # mycat:
+  #   build:
+  #     context: ./mycat
+  #   command: console
+
+
 ### Zoopkeeper #############################
-  zookeeper:
-    image: zookeeper
-    ports:
-      - 2181:2181
+  # zookeeper:
+  #   image: zookeeper
+  #   ports:
+  #     - 2181:2181
 
 ### Kafka #############################
-  kafka:
-    image: wurstmeister/kafka
-    environment:
-      - KAFKA_ADVERTISED_LISTENERS=INSIDE://:9092,OUTSIDE://:9094
-      - KAFKA_LISTENERS=INSIDE://:9092,OUTSIDE://:9094
-    ports:
-      - 9094:9094
-      - 9092:9092
+  # kafka:
+  #   image: wurstmeister/kafka
+  #   environment:
+  #     - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+  #     - KAFKA_ADVERTISED_LISTENERS=INSIDE://:9092,OUTSIDE://:9094
+  #     - KAFKA_LISTENERS=INSIDE://:9092,OUTSIDE://:9094
+  #     - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+  #     - KAFKA_INTER_BROKER_LISTENER_NAME=INSIDE
+  #   ports:
+  #     - 9094:9094
+  #     - 9092:9092
